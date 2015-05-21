@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<constant name="struts.custom.i18n.resources"
+		value="messageResource"/>
+	<constant name="struts.i18n.encoding" value="UTF-8"/>
+
+	<package name="lee" extends="struts-default">
+
+		
+		<interceptors>
+			
+			<interceptor name="authority" 
+				class="org.crazyit.auction.action.interceptor.AuthorityInterceptor"/>
+			
+			<interceptor-stack name="auctionStack">
+				
+				<interceptor-ref name="defaultStack"/>
+				
+				<interceptor-ref name="authority"/>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="auctionStack"/>
+
+		<global-results>
+			
+			<result name="login">/WEB-INF/content/login.jsp</result>
+			<result name="exception">/WEB-INF/content/error.jsp</result>
+		</global-results>
+
+		<global-exception-mappings>
+			
+			<exception-mapping exception="com.exception.AuctionException" result="exception"/>
+			
+			<exception-mapping exception="java.lang.Exception" result="exception"/>
+		</global-exception-mappings>
+
+
+		<action name="index">
+			<result name="success">/WEB-INF/content/main.jsp</result>
+		</action>
+
+		<action name="viewItemSu" class="com.action.ViewSuAction">
+			<result name="success">/WEB-INF/content/viewSuccess.jsp</result>	
+		</action>
+
+		<action name="viewFailItem" class="com.action.ViewFailAction">
+			<result name="success">/WEB-INF/content/viewFail.jsp</result>	
+		</action>
+
+		<action name="viewBid" class="com.action.ViewBidAction">
+			<result name="success">/WEB-INF/content/viewBid.jsp</result>	
+		</action>
+
+		<action name="mgrItem" class="com.action.MgrItemAction">
+			<result name="success">/WEB-INF/content/mgrItem.jsp</result>
+		</action>
+
+		<action name="mgrKind" class="com.action.MgrKindAction">
+			<result name="success">/WEB-INF/content/mgrKind.jsp</result>	
+		</action>
+
+		<action name="viewKind" class="com.action.ViewKindAction">
+			<result name="success">/WEB-INF/content/viewKind.jsp</result>	
+		</action>
+
+		<action name="viewItem" class="com.action.ViewItemAction">
+			<result name="input">viewKind.action</result>	
+			<result name="success">/WEB-INF/content/viewItem.jsp</result>  
+		 </action>
+		<action name="viewDetail" class="com.action.ViewDetailAction">
+			<result name="error">/WEB-INF/content/error.jsp</result>
+			<result name="success">/WEB-INF/content/viewDetail.jsp</result>
+		</action>
+
+		<!-- 配置处理用户登录的Action -->
+		<action name="proLogin" class="com.action.LoginAction">
+			<!-- 配置处理用户登录后的Result -->
+			<result name="input">/WEB-INF/content/login.jsp</result> 
+			<result name="success">/WEB-INF/content/main.jsp</result>
+			<result name="failure">/WEB-INF/content/login.jsp</result>
+			<!-- 显式引用系统默认拦截器栈 -->
+			<interceptor-ref name="defaultStack"/>
+		</action>
+
+		<action name="proAddItem" class="com.action.AddItemAction">
+			<result name="input" type="chain">mgrItem</result>	
+			<result name="success" type="chain">mgrItem</result>
+		</action>
+		<action name="proAddKind" class="com.action.AddKindAction">
+			<result name="input" type="chain">mgrKind</result>	
+			<result name="success" type="chain">mgrKind</result>
+		</action>
+		<action name="bid" class="com.action.AddBidAction">
+			<result name="input" type="chain">viewDetail</result>	
+			<result name="success" type="chain">viewBid</result>
+		</action>
+
+	</package> 
+
+</struts>

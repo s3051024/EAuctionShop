@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Spring配置文件的根元素，并指定Schema信息 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	
+	<bean id="daoTemplate" abstract="true"
+		p:sessionFactory-ref="sessionFactory"/>
+
+	<bean id="stateDao" parent="daoTemplate"
+		class="com.daoimpl.StateDaoHibernate"/>
+	
+	<bean id="kindDao" parent="daoTemplate"
+		class="com.daoimpl.KindDaoHibernate"/>
+	
+	<bean id="auctionUserDao" parent="daoTemplate"
+		class="com.daoimpl.AuctionUserDaoHibernate"/>
+	
+	<bean id="bidDao" parent="daoTemplate"
+		class="com.daoimpl.BidDaoHibernate"/>
+	
+	<bean id="itemDao" parent="daoTemplate"
+		class="com.daoimpl.ItemDaoHibernate"/>
+</beans>
